@@ -1,5 +1,7 @@
 package kulkov.example;
 
+import static kulkov.example.MainClass.smp;
+
 public class Tunnel extends Stage {
 
     public Tunnel() {
@@ -12,12 +14,14 @@ public class Tunnel extends Stage {
         try {
             try {
                 System.out.println(c.getName() + " готовится к этапу(ждет): " + description);
+                smp.acquire();
                 System.out.println(c.getName() + " начал этап: " + description);
                 Thread.sleep(length / c.getSpeed() * 1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
                 System.out.println(c.getName() + " закончил этап: " + description);
+                smp.release();
             }
         } catch (Exception e) {
             e.printStackTrace();
