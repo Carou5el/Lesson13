@@ -13,6 +13,7 @@ import static kulkov.example.MainClass.cdl;
 public class Car implements Runnable {
 
     private static int CARS_COUNT;
+    private static volatile boolean stopThread = false;
     private Race race;
     private int speed;
 
@@ -31,6 +32,13 @@ public class Car implements Runnable {
         CARS_COUNT++;
         this.name = "Участник #" + CARS_COUNT;
     }
+
+    // Methods.
+    static void stopThreads()   {
+        stopThread = true;
+    }
+
+
 
     @Override
     public void run() {
@@ -58,6 +66,11 @@ public class Car implements Runnable {
             race.getStages().get(i).go(this);
 
         }
-        System.out.println(this.name + " Finish!");
+
+        if(!stopThread) {
+            System.out.println(this.name + " Finish!");
+
+        }
+        stopThreads();
     }
 }
